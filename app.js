@@ -1,29 +1,38 @@
 const express = require('express');
 const cors = require('cors');
-var bodyParser = require('body-parser');
+const blogsRouter = require('./routes/blogs');
+const usersRouter = require('./routes/users');
+const mongoose = require('mongoose');
 
+const bodyParser = require('body-parser');
 const app = express();
+// app.use(logger);
 
 app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  console.log('hello');
-  res.status(200).json({
-    message: 'hello',
+app.use('/users', usersRouter);
+app.use('/blogs', blogsRouter);
+
+// middleware
+function logger(req, res, next) {
+  console.log('logging...');
+  next();
+}
+
+mongoose
+  .connect(
+    'mongodb+srv://afhamsh:03452519534123@nodejscluster.cmp6nre.mongodb.net/blog?retryWrites=true&w=majority',
+  )
+  .then((result) => {
+    app.listen(4000, () => {
+      console.log('listening on port 4000');
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-});
-
-app.get('/blogs', (req, res) => {
-  res.status(200).json({
-    message: 'blogs',
-  });
-});
-
-app.listen(4000, () => {
-  console.log('listening on port 4000');
-});
