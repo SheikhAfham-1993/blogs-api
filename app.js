@@ -19,11 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/users', usersRouter);
-app.use('/blogs', blogsRouter);
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+app.use('/users', usersRouter);
+app.use('/blogs', blogsRouter);
 
 // middleware
 function logger(req, res, next) {
