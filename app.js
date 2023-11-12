@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 // app.use(logger);
 
-app.use(cors({ credentials: true, origin: '*' }));
+app.use(cors({ origin: process.env.APP_URL, credentials: true }));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -19,11 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
+app.use('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 // middleware
 function logger(req, res, next) {
