@@ -42,9 +42,14 @@ exports.registerUser = (req, res, next) => {
     user
       .save()
       .then((result) => {
-        res.status(201).json({
+        const newUserData = {
+          name: result.name,
+          email: result.email,
+          userId: result._id,
+        };
+        console.log({ newUserData });
+        res.status(200).json({
           message: 'User created',
-          result: result,
         });
       })
       .catch((err) => {

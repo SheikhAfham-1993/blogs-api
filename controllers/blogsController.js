@@ -2,6 +2,19 @@ const Blogs = require('../model/blogsModel');
 
 exports.getAllblogs = (req, res, next) => {
   Blogs.find()
+    .populate('author')
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+};
+
+exports.getSingleBlog = (req, res, next) => {
+  const id = req.params.id;
+  Blogs.findById(id)
+    .populate('author')
     .then((result) => {
       res.status(200).json(result);
     })
@@ -18,7 +31,6 @@ exports.createBlog = (req, res, next) => {
     author: req.body.author,
   });
 
-  console.log(blog);
   blog
     .save()
     .then(() => {
