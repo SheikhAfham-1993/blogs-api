@@ -21,6 +21,9 @@ app.use(cookieParser());
 
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
+app.use('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 // middleware
 function logger(req, res, next) {
