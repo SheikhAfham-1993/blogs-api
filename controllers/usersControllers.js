@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 exports.loginUser = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
   if (user) {
     bcrypt.compare(req.body.password, user.password).then((result) => {
       if (result) {
@@ -19,8 +18,9 @@ exports.loginUser = async (req, res, next) => {
           (err, token) => {
             if (err) throw err;
 
-            res.cookie('token', token).status(200).json({
+            res.status(200).json({
               message: 'Auth successful',
+              user: user,
             });
           },
         );
