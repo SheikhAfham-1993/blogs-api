@@ -3,6 +3,7 @@ const blogsController = require('../controllers/blogsController');
 const router = express.Router();
 
 router.get('/getAll', blogsController.getAllblogs);
+router.post('/create', blogsController.createBlog);
 
 // router.get('/get/:id', (req, res) => {
 //   res.status(200).json({

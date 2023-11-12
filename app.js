@@ -4,16 +4,20 @@ const blogsRouter = require('./routes/blogs');
 const usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 // app.use(logger);
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/users', usersRouter);
 app.use('/blogs', blogsRouter);
