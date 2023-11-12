@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 // app.use(logger);
 
-app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({ origin: process.env.APP_URL, credentials: true }));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
