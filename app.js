@@ -29,9 +29,7 @@ function logger(req, res, next) {
 }
 
 mongoose
-  .connect(
-    'mongodb+srv://afhamsh:03452519534123@nodejscluster.cmp6nre.mongodb.net/blog?retryWrites=true&w=majority',
-  )
+  .connect(process.env.CONNECTION_STRING)
   .then((result) => {
     app.listen(4000, () => {
       console.log('listening on port 4000');
