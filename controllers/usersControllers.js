@@ -5,25 +5,21 @@ const jwt = require('jsonwebtoken');
 exports.loginUser = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (user) {
+    let newUserObj = {
+      name: user.name,
+      email: user.email,
+      userId: user._id,
+    };
     bcrypt.compare(req.body.password, user.password).then((result) => {
       if (result) {
-        jwt.sign(
-          {
-            name: user.name,
-            email: user.email,
-            userId: user._id,
-          },
-          process.env.USER_SECRET,
-          {},
-          (err, token) => {
-            if (err) throw err;
+        jwt.sign(newUserObj, process.env.USER_SECRET, {}, (err, token) => {
+          if (err) throw err;
 
-            res.status(200).json({
-              message: 'Auth successful',
-              user: user,
-            });
-          },
-        );
+          res.status(200).json({
+            message: 'Auth successful',
+            user: newUserObj,
+          });
+        });
       } else {
         res.status(401).json({
           message: 'Invalid authentication credentials!',
@@ -43,12 +39,6 @@ exports.registerUser = (req, res, next) => {
     user
       .save()
       .then((result) => {
-        const newUserData = {
-          name: result.name,
-          email: result.email,
-          userId: result._id,
-        };
-        console.log({ newUserData });
         res.status(200).json({
           message: 'User created',
         });
