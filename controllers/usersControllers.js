@@ -12,12 +12,13 @@ exports.loginUser = async (req, res, next) => {
     };
     bcrypt.compare(req.body.password, user.password).then((result) => {
       if (result) {
-        jwt.sign(newUserObj, process.env.USER_SECRET, {}, (err, token) => {
+        jwt.sign(newUserObj, process.env.USER_SECRET, { expiresIn: '1h' }, (err, token) => {
           if (err) throw err;
 
           res.status(200).json({
             message: 'Auth successful',
             user: newUserObj,
+            token: token,
           });
         });
       } else {
