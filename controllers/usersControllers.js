@@ -60,7 +60,7 @@ exports.registerUser = (req, res, next) => {
 };
 
 exports.logOut = (req, res, next) => {
-  res.clearCookie('token').status(200).json({
+  res.status(200).json({
     message: 'User logged out',
   });
 };
